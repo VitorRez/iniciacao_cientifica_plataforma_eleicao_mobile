@@ -16,7 +16,7 @@ tal = tallier()
 autoridade_certificadora(aut, reg, adm, val, tal)
 
 cand = candidatos()
-cand.buscaCand("eleitores.csv")
+cand.buscaCand("base_de_dados/eleitores.csv")
 for i in cand.cand_list:
     print(i.nome)
 

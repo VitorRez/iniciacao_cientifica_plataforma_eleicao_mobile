@@ -66,7 +66,7 @@ def reg_candidato(filename, nome, cpf):
                 arquivo_csv.seek(cont+os, 0)
                 arquivo_csv.write('0')
                 return
-            cont += (len(linha['nome'])+len(linha['cpf'])+len(linha['unidade'])+len(linha['validade'])+len(linha['candidato'])+len(linha['data'])+len(linha['horai'])+len(linha['horaf'])+len(linha['num_votos'])+9)
+            cont += (len(linha['nome'])+len(linha['cpf'])+len(linha['unidade'])+len(linha['validade'])+len(linha['candidato'])+5)
             os += 1
 
 def busca_cand(filename, candList):
@@ -76,7 +76,7 @@ def busca_cand(filename, candList):
 
         for linha in leitor_csv:
             if linha['candidato'] == "1":
-                eleitor = [linha['nome'], linha['cpf'], linha['unidade'], linha['validade'], linha['candidato'], linha['data'], linha['horai'], linha['horaf']]
+                eleitor = [linha['nome'], linha['cpf'], linha['unidade'], linha['validade'], linha['candidato']]
                 candList.append(eleitor)
 
 def guarda_chave_pub(filename, nome, cpf, unidade, chave):

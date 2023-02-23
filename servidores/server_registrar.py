@@ -25,7 +25,7 @@ def handle_client(conn, addr, reg):
                 connected = False
             print(f"[{addr}] {msg}")
             dados = msg.split()
-            reg.registra_eleitor("teste.csv", dados[0], dados[1], dados[2])
+            reg.registra_eleitor("base_de_dados/eleitores.csv", dados[0], dados[1], dados[2])
             conn.send("Eleitor registrado!".encode(FORMAT))
         
     conn.close()
