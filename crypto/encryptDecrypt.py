@@ -7,12 +7,12 @@ class Encryptor:
 
     def encrypt_pub(self, message):
         cipher = PKCS1_OAEP.new(self.key.public_key())
-        ciphertext = cipher.encrypt(message)
+        ciphertext = cipher.encrypt(str.encode(message))
         return ciphertext
     
     def encrypt_priv(self, message):
         cipher = PKCS1_OAEP.new(self.key)
-        ciphertext = cipher.encrypt(message)
+        ciphertext = cipher.encrypt(str.encode(message))
         return ciphertext
     
     def decrypt(self, ciphertext, key):
