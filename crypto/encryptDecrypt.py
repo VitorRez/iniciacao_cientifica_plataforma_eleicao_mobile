@@ -19,12 +19,3 @@ class Encryptor:
         cipher = PKCS1_OAEP.new(key)
         message = cipher.decrypt(ciphertext)
         return bytes.decode(message)
-
-chave = RSA.generate(1024)
-txt = 'bananinha'
-txt_b = str.encode(txt)
-enc = Encryptor(chave)
-txt_enc = enc.encrypt_pub(txt_b)
-print(txt_enc)
-txt_dec = enc.decrypt(txt_enc, chave)
-print(txt_dec)
