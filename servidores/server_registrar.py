@@ -30,7 +30,7 @@ def handle_client(conn, addr, reg):
         
     conn.close()
 
-def start(reg):
+def start_reg(reg):
     server.listen()
     print(f"[LISTENING] Server is listerning on {SERVER}")
     while True:

@@ -6,6 +6,7 @@ from entidades.validator import *
 from entidades.tallier import *
 from entidades.autoridade import *
 from servidores.server_registrar import *
+from servidores.server_administrator import *
 
 aut = autoridade()
 reg = registrar()
@@ -15,12 +16,7 @@ tal = tallier()
 
 autoridade_certificadora(aut, reg, adm, val, tal)
 
-cand = candidatos()
-cand.buscaCand("base_de_dados/eleitores.csv")
-for i in cand.cand_list:
-    print(i.nome)
-
-start(reg)
+start_reg(adm)
 
 #nome = "vitor"
 #cpf = "12373075628"

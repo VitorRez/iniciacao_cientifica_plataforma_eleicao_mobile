@@ -1,3 +1,9 @@
+from pathlib import Path
+import sys
+path_root = Path(__file__).parents[2]
+sys.path.append(str(path_root))
+print(sys.path)
+
 from certificados.autoridade_certificadora import *
 from entidades.eleitores import *
 from entidades.registrar import *
@@ -6,6 +12,7 @@ from entidades.validator import *
 from entidades.tallier import *
 from entidades.autoridade import *
 from servidores.server_registrar import *
+from servidores.server_administrator import *
 
 aut = autoridade()
 reg = registrar()
@@ -20,7 +27,7 @@ cand.buscaCand("eleitores.csv")
 for i in cand.cand_list:
     print(i.nome)
 
-start(reg)
+start_adm(adm)
 
 #nome = "vitor"
 #cpf = "12373075628"
