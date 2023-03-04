@@ -8,8 +8,12 @@ class registrar():
     def __init__(self):
         self.chave = RSA.generate(2048)
     
-    def registra_eleitor(self, filename, nome, cpf, unidade):
+    def cadastra_eleitor(self, nome, cpf, unidade):
+        cadastra_eleitor("base_de_dados/eleitores.csv", nome, cpf, unidade)
+
+    def registra_eleitor(self, nome, cpf, unidade):
         #print(nome, cpf, unidade)
+        filename = "base_de_dados/eleitores.csv"
         x = busca_eleitor(filename, nome, cpf, unidade)
         if x:
             chave = RSA.generate(2048)
