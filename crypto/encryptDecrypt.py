@@ -7,29 +7,29 @@ class Encryptor:
     def __init__(self, key):
         self.key = key
 
-    def encrypt_sym(self, message):
+    def encrypt_sym(self, msg):
         cipher = AES.new(self.aes_key, AES.MODE_EAX)
         nonce = cipher.nonce
-        ciphertext, tag = cipher.encrypt_and_digest(message.encode('utf-8'))
+        ciphertext, tag = cipher.encrypt_and_digest(msg.encode('utf-8'))
         return (nonce, ciphertext, tag)
 
     def decrypt_sym(self, nonce, ciphertext, tag, key):
         cipher = AES.new(key, AES.MODE_EAX, nonce)
-        message = cipher.decrypt(ciphertext)
-        message = bytes.decode(message)
-        return message
+        msg = cipher.decrypt(ciphertext)
+        msg = bytes.decode(msg)
+        return msg
 
-    def encrypt_pub(self, message):
+    def encrypt_pub(self, msg):
         cipher = PKCS1_OAEP.new(self.key.public_key())
-        ciphertext = cipher.encrypt(str.encode(message))
+        ciphertext = cipher.encrypt(str.encode(msg))
         return ciphertext
     
-    def encrypt_priv(self, message):
+    def encrypt_priv(self, msg):
         cipher = PKCS1_OAEP.new(self.key)
-        ciphertext = cipher.encrypt(str.encode(message))
+        ciphertext = cipher.encrypt(str.encode(msg))
         return ciphertext
     
     def decrypt(self, ciphertext, key):
         cipher = PKCS1_OAEP.new(key)
-        message = cipher.decrypt(ciphertext)
-        return bytes.decode(message)
+        msg = cipher.decrypt(ciphertext)
+        return bytes.decode(msg)
