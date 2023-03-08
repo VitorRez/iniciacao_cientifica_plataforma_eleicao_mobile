@@ -14,7 +14,7 @@ class registrar():
     def registra_eleitor(self, nome, cpf, unidade):
         #print(nome, cpf, unidade)
         filename = "base_de_dados/eleitores.csv"
-        x = busca_eleitor(filename, nome, cpf, unidade)
+        x = busca_dados(filename, nome, cpf, unidade)
         if x:
             chave = RSA.generate(2048)
             muda_estado_eleitor(filename, nome, cpf)

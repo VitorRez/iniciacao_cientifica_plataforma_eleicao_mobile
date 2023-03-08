@@ -1,3 +1,4 @@
+import threading
 from certificados.autoridade_certificadora import *
 from entidades.eleitores import *
 from entidades.registrar import *
@@ -16,7 +17,12 @@ tal = tallier()
 
 autoridade_certificadora(aut, reg, adm, val, tal)
 
-start_reg(adm)
+start_adm(adm)
+
+#thread_adm = threading.Thread(target=start_adm, args=adm)
+#thread_reg = threading.Thread(target=start_reg, args=reg)
+#thread_adm.start()
+#thread_reg.start()
 
 #nome = "vitor"
 #cpf = "12373075628"

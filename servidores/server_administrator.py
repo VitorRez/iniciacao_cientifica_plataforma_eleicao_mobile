@@ -25,42 +25,10 @@ def handle_client(conn, addr, adm):
                 connected = False
             print(f"[{addr}] {msg}")
             dados = msg.split()
-            if dados[0] == "candidatar":
-                candidatar(conn, addr, adm)
-            if dados[0] == "apoiar":
-                apoiar(conn, addr, adm)
-    
-def candidatar(conn, addr, adm):
-    print("[O CLIENTE IRÁ SE INSCREVER COMO CANDIDATO]")
-    connected = True
-    while connected:
-        msg_length = conn.recv(HEADER).decode(FORMAT)
-        if msg_length:
-            msg_length = int(msg_length)
-            msg = conn.recv(msg_length).decode(FORMAT)
-            if msg == DISCONNECT_MESSAGE:
-                connected = False
+            adm.candidatar(dados[0], dados[1], dados[2])
+            conn.send("Candidadura concluída".encode(FORMAT))
 
-            dados = msg.split()
-            adm.candidato_a_candidato(dados[0], dados[1], dados[2])
-            conn.send("Candidadura enviada, esperando aprovação!".encode(FORMAT))
-
-def apoiar(conn, addr, adm):
-    print("[O CLIENTE IRÁ APOIAR A CANDIDATURA DE OUTRO CLIENTE]")
-    connected = True
-    while connected:
-        msg_length = conn.recv(HEADER).decode(FORMAT)
-        if msg_length:
-            msg_length = int(msg_length)
-            msg = conn.recv(msg_length).decode(FORMAT)
-            if msg == DISCONNECT_MESSAGE:
-                connected = False
-
-            dados = msg
-            print(f"[{addr}] {msg}")
-            dados = msg.split()
-            adm.registra_candidato(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5])
-            conn.send("Candidato apoiado!".encode(FORMAT))
+    conn.close()
 
 def start_adm(adm):
     server.listen()

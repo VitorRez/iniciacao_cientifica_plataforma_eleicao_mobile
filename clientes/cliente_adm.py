@@ -18,22 +18,12 @@ def send(msg):
     client.send(send_length)
     client.send(message)
 
-def apoiar(s):
-    msg = input("[DIGITE OS DADOS DO CANDIDATO]: ")
-    send(s + msg)
-    print(client.recv(2048).decode(FORMAT))
-
-
-def candidatar(s):
-
-    send(s)
-    print(client.recv(2048).decode(FORMAT))
-
 def send_to_adm(nome, cpf, unidade):
-    s = nome + cpf + unidade
-    msg = input("[DESEJA SE CANDIDATAR OU APOIAR CANDIDATURA?]: ")
-    send(msg)
-    if msg == "apoiar":
-        apoiar(s)
-    if msg == "candidatar":
-        candidatar(s)
+    info = nome + " " + cpf + " " + unidade
+    send(info)
+    print(client.recv(2048).decode(FORMAT))
+
+nome = input("[NOME]: ")
+cpf = input("[CPF]: ")
+unidade = input("[UNIDADE]: ")
+send_to_adm(nome, cpf, unidade)
