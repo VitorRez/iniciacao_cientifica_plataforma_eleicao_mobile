@@ -65,3 +65,4 @@ def stringToList(text, size):
     list[1] = stringToByte(list[1], size)
     list[2] = stringToByte(list[2], 128)
     return list
+

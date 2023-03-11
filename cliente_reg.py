@@ -52,4 +52,3 @@ nome = 'vitor'
 cpf = "12373075628"
 unidade = "1"
 send_to_reg(nome, cpf, unidade)
-        

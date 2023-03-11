@@ -86,9 +86,23 @@ def busca_chave_pub(filename, nome, cpf, unidade):
                 chave = linha['chave']
                 return chave
             
+def checa_chave(nome):
+    with open("chave_pub_enti.csv", "r") as arquivo_csv:
+        leitor_csv = csv.DictReader(arquivo_csv)
+        for linha in leitor_csv:
+            if linha['nome'] == nome:
+                return 0
+        return 1
+
 def guarda_chave_entidade(nome, chave):
 
     with open("chave_pub_enti.csv", "a") as arquivo_csv:
+        escreve_csv = csv.writer(arquivo_csv)
+        escreve_csv.writerow([nome, chave])
+
+def guarda_chave_priv_entidade(nome, chave):
+
+    with open("chave_priv_enti.csv", "a") as arquivo_csv:
         escreve_csv = csv.writer(arquivo_csv)
         escreve_csv.writerow([nome, chave])
 
@@ -101,3 +115,4 @@ def busca_chave_entidade(nome):
             if linha['nome'] == nome:
                 chave = linha['chave']
                 return chave
+            

@@ -6,7 +6,7 @@ from base_de_dados.manipula_BaseDados import *
 class registrar():
 
     def __init__(self):
-        self.chave = RSA.generate(2048)
+        self.chave = RSA.generate(1024)
         guarda_chave_entidade("reg", self.chave.public_key().export_key('PEM'))
     
     def cadastra_eleitor(self, nome, cpf, unidade):
