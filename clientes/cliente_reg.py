@@ -1,4 +1,6 @@
 import socket
+from crypto.encryptDecrypt import *
+from base_de_dados.manipula_BaseDados import *
 #from entidades.eleitores import *
 
 HEADER = 1024
@@ -28,13 +30,16 @@ def gerar(info):
     print(client.recv(2048).decode(FORMAT))
 
 def send_to_reg(nome, cpf, unidade):
+    chave = busca_chave_entidade("reg")
+    e_sym = Encryptor(chave)
     info = nome + " " + cpf + " " + unidade
+    cipher_info = e_sym.encrypt_sym(info)
     msg = input("[DESEJA SE INSCREVER OU GERAR PAR DE CHAVES?]: ")
     send(msg)
     if msg == "inscrever":
-        inscrever(info)
+        inscrever(cipher_info)
     if msg == "gerar":
-        gerar(info)
+        gerar(cipher_info)
 
 
 nome = input("[NOME]: ")

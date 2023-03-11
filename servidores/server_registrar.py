@@ -1,4 +1,5 @@
 from entidades.registrar import *
+from crypto.encryptDecrypt import *
 import socket
 import threading
 
@@ -14,13 +15,15 @@ server.bind(ADDR)
 
 def handle_client(conn, addr, reg):
     print(f"[NEW CONNECTION] {addr} connected.")
-
+    e = Encryptor(reg.chave)
     connected = True
     while connected:
         msg_length = conn.recv(HEADER).decode(FORMAT)
         if msg_length:
             msg_length = int(msg_length)
-            msg = conn.recv(msg_length).decode(FORMAT)
+            cipher_text = conn.recv(msg_length).decode(FORMAT)
+            msg = e.decrypt_sym()
+            msg
             if msg == DISCONNECT_MESSAGE:
                 connected = False
             print(f"[{addr}] {msg}")
