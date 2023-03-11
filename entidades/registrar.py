@@ -7,7 +7,7 @@ class registrar():
 
     def __init__(self):
         self.chave = RSA.generate(2048)
-        guarda_chave_entidade("reg", self.chave.publickey())
+        guarda_chave_entidade("reg", self.chave.public_key().export_key('PEM'))
     
     def cadastra_eleitor(self, nome, cpf, unidade):
         cadastra_eleitor("base_de_dados/eleitores.csv", nome, cpf, unidade)

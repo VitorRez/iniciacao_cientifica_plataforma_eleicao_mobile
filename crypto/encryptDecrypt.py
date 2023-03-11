@@ -12,9 +12,9 @@ class Encryptor:
         cipher = AES.new(self.aes_key, AES.MODE_EAX)
         nonce = cipher.nonce
         ciphertext, tag = cipher.encrypt_and_digest(msg.encode('utf-8'))
-        return (nonce, ciphertext, tag)
+        return (nonce, ciphertext)
 
-    def decrypt_sym(self, nonce, ciphertext, tag, key):
+    def decrypt_sym(self, nonce, ciphertext, key):
         cipher = AES.new(key, AES.MODE_EAX, nonce)
         msg = cipher.decrypt(ciphertext)
         msg = bytes.decode(msg)
@@ -23,32 +23,45 @@ class Encryptor:
     def encrypt(self, msg):
         key = RSA.import_key(self.rsa_key)
         cipher = PKCS1_OAEP.new(key)
-        ciphertext = cipher.encrypt(str.encode(msg))
+        ciphertext = cipher.encrypt(msg)
         return ciphertext
     
     def decrypt(self, ciphertext, rsa_key):
         key = RSA.import_key(rsa_key)
         cipher = PKCS1_OAEP.new(key)
         msg = cipher.decrypt(ciphertext)
-        return bytes.decode(msg)
+        return msg
+    
+    def protocolo_e(self, msg):
+        enc = self.encrypt_sym(msg)
+        enc_rsa = self.encrypt(self.aes_key)
+        list = [enc[0], enc[1], enc_rsa]
+        size = len(enc[1])
+        text = listToString(list)
+        return (text, size)
+    
+    def protocolo_d(self, text, rsa_key, size):
+        list = stringToList(text, size)
+        aes_key = self.decrypt(list[2], rsa_key)
+        msg = self.decrypt_sym(list[0], list[1], aes_key)
+        return msg
+    
 
-#text = "banana"
-#chave_rsa = RSA.generate(1024)
-#chave_aes = get_random_bytes(16)
-#e = Encryptor(chave_rsa.public_key().export_key('PEM'), chave_aes)
+def byteToString(byte):
+    text = str(int.from_bytes(byte, 'big'))
+    return text
 
-#exemplo uso criptografia simetrica
+def stringToByte(text, size):
+    byte = int(text).to_bytes(size, 'big')
+    return byte
 
-#print("-----Criptografia simetrica-----")
-#cipher_text = e.encrypt_sym(text)
-#print(cipher_text[1])
-#plain_text = e.decrypt_sym(cipher_text[0], cipher_text[1], cipher_text[2], e.aes_key)
-#print(plain_text)
+def listToString(list):
+    text = " ".join([byteToString(i) for i in list])
+    return text
 
-#exemplo uso criptografia assimetrica
-
-#print("----Criptografia assimétrica----")
-#cipher_text = e.encrypt(text)
-#print(cipher_text)
-#plain_text = e.decrypt(cipher_text, chave_rsa.export_key('PEM'))
-#print(plain_text)
+def stringToList(text, size):
+    list = text.split()
+    list[0] = stringToByte(list[0], 16)
+    list[1] = stringToByte(list[1], size)
+    list[2] = stringToByte(list[2], 128)
+    return list

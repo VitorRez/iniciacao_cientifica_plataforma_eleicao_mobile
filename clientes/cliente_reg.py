@@ -1,4 +1,6 @@
 import socket
+import os
+os.chdir("/home/vitor/Documentos/iniciação cientifica/")
 from crypto.encryptDecrypt import *
 from base_de_dados.manipula_BaseDados import *
 #from entidades.eleitores import *
@@ -21,25 +23,29 @@ def send(msg):
     client.send(send_length)
     client.send(message)
 
-def inscrever(info):
-    send(info)
+def inscrever(info, e):
+    cipher = e.protocolo_e(info)
+    send(cipher[1])
+    send(str(cipher[0]))
     print(client.recv(2048).decode(FORMAT))
 
-def gerar(info):
-    send(info)
+def gerar(info, e):
+    cipher = e.protocolo_e(info)
+    send(cipher[1])
+    send(str(cipher[0]))
     print(client.recv(2048).decode(FORMAT))
 
 def send_to_reg(nome, cpf, unidade):
-    chave = busca_chave_entidade("reg")
-    e_sym = Encryptor(chave)
+    chave_rsa = busca_chave_entidade("reg")
+    chave_aes = get_random_bytes(16)
+    e = Encryptor(chave_rsa, chave_aes)
     info = nome + " " + cpf + " " + unidade
-    cipher_info = e_sym.encrypt_sym(info)
     msg = input("[DESEJA SE INSCREVER OU GERAR PAR DE CHAVES?]: ")
     send(msg)
     if msg == "inscrever":
-        inscrever(cipher_info)
+        inscrever(info, e)
     if msg == "gerar":
-        gerar(cipher_info)
+        gerar(info, e)
 
 
 nome = input("[NOME]: ")
