@@ -21,13 +21,15 @@ class Encryptor:
         return msg
     
     def encrypt(self, msg):
-        key = RSA.import_key(self.rsa_key)
+        #key = RSA.import_key(self.rsa_key)
+        key = self.rsa_key
         cipher = PKCS1_OAEP.new(key)
         ciphertext = cipher.encrypt(msg)
         return ciphertext
     
     def decrypt(self, ciphertext, rsa_key):
         key = RSA.import_key(rsa_key)
+        #key = rsa_key
         cipher = PKCS1_OAEP.new(key)
         msg = cipher.decrypt(ciphertext)
         return msg
@@ -65,4 +67,3 @@ def stringToList(text, size):
     list[1] = stringToByte(list[1], size)
     list[2] = stringToByte(list[2], 128)
     return list
-

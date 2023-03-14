@@ -1,4 +1,5 @@
 import csv
+from Crypto.PublicKey import RSA
 
 def cadastra_eleitor(filename, nome, cpf, unidade):
 
@@ -70,49 +71,30 @@ def busca_cand(filename, candList):
                 eleitor = [linha['nome'], linha['cpf'], linha['unidade'], linha['validade'], linha['candidato']]
                 candList.append(eleitor)
 
-def guarda_chave_pub(filename, nome, cpf, unidade, chave):
+def guarda_chave_pub(id, chave):
 
-    with open(filename, "a") as arquivo_csv:
-        escreve_csv = csv.writer(arquivo_csv)
-        escreve_csv.writerow([nome, cpf, unidade, chave])
+    filename = f"{id}.PEM"
+    with open(filename, "wb") as file:
+        file.write(chave.public_key().exportKey('PEM'))
 
-def busca_chave_pub(filename, nome, cpf, unidade):
+def guarda_chave_priv(id, chave):
 
-    with open(filename, "r") as arquivo_csv:
-        leitor_csv = csv.DictReader(arquivo_csv)
+    filename = f"{id}_priv.PEM"
+    with open(filename, "wb") as file:
+        file.write(chave.exportKey('PEM'))
+       
+def busca_chave_pub(id):
 
-        for linha in leitor_csv:
-            if linha['nome'] == nome and linha['cpf'] == cpf and linha['unidade'] == unidade:
-                chave = linha['chave']
-                return chave
-            
-def checa_chave(nome):
-    with open("chave_pub_enti.csv", "r") as arquivo_csv:
-        leitor_csv = csv.DictReader(arquivo_csv)
-        for linha in leitor_csv:
-            if linha['nome'] == nome:
-                return 0
-        return 1
+    filename = f"{id}.PEM"
+    with open(filename, "rb") as file:
+        pub_key = RSA.importKey(file.read())
+        return pub_key
+    
+def busca_chave_priv(id):
 
-def guarda_chave_entidade(nome, chave):
-
-    with open("chave_pub_enti.csv", "a") as arquivo_csv:
-        escreve_csv = csv.writer(arquivo_csv)
-        escreve_csv.writerow([nome, chave])
-
-def guarda_chave_priv_entidade(nome, chave):
-
-    with open("chave_priv_enti.csv", "a") as arquivo_csv:
-        escreve_csv = csv.writer(arquivo_csv)
-        escreve_csv.writerow([nome, chave])
-
-def busca_chave_entidade(nome):
-
-    with open("chave_pub_enti.csv", "r") as arquivo_csv:
-        leitor_csv = csv.DictReader(arquivo_csv)
-
-        for linha in leitor_csv:
-            if linha['nome'] == nome:
-                chave = linha['chave']
-                return chave
+    filename = f"{id}_priv.PEM"
+    with open(filename, "rb") as file:
+        pub_key = RSA.importKey(file.read())
+        return pub_key
+        
             

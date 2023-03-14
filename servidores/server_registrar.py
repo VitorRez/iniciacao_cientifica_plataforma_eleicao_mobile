@@ -49,7 +49,7 @@ def inscrever(conn, addr, reg, e_reg):
             if msg == DISCONNECT_MESSAGE:
                 connected = False
             print(f"[{addr}] {msg}")
-            text = e_reg.protocolo_d(msg, e_reg.chave, size)
+            text = e_reg.protocolo_d(msg, e_reg.rsa_key, size)
             dados = text.split()
             reg.cadastra_eleitor(dados[0], dados[1], dados[2])
             conn.send("Eleitor inscrito!".encode(FORMAT))
@@ -67,7 +67,7 @@ def gerar(conn, addr, reg, e_reg):
             if msg == DISCONNECT_MESSAGE:
                 connected = False
             print(f"[{addr}] {msg}")
-            text = e_reg.protocolo_d(msg, e_reg.chave, size)
+            text = e_reg.protocolo_d(msg, e_reg.rsa_key, size)
             dados = text.split()
             reg.registra_eleitor(dados[0], dados[1], dados[2])
             conn.send("Par de chaves gerado!".encode(FORMAT))

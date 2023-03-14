@@ -1,8 +1,6 @@
 import socket
-import os
 from crypto.encryptDecrypt import *
 from base_de_dados.manipula_BaseDados import *
-#from entidades.eleitores import *
 
 HEADER = 1024
 PORT = 5050
@@ -24,19 +22,18 @@ def send(msg):
 
 def inscrever(info, e):
     cipher = e.protocolo_e(info)
-    send(cipher[1])
+    send(str(cipher[1]))
     send(str(cipher[0]))
     print(client.recv(2048).decode(FORMAT))
 
 def gerar(info, e):
     cipher = e.protocolo_e(info)
-    send(cipher[1])
+    send(str(cipher[1]))
     send(str(cipher[0]))
     print(client.recv(2048).decode(FORMAT))
 
 def send_to_reg(nome, cpf, unidade):
-    chave_rsa = busca_chave_entidade("reg")
-    print(chave_rsa)
+    chave_rsa = busca_chave_pub("reg")
     chave_aes = get_random_bytes(16)
     e = Encryptor(chave_rsa, chave_aes)
     info = nome + " " + cpf + " " + unidade

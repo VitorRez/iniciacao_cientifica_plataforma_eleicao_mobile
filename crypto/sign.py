@@ -4,7 +4,7 @@ from Crypto.Hash import SHA256
 
 class signature:
     def __init__(self, key):
-        self.key = key
+        self.key = RSA.importKey(key)
 
     def sign(self, message):
         message_h = SHA256.new(str.encode(message))
@@ -12,9 +12,10 @@ class signature:
         return s
     
     def verify(self, message, signature, key):
+        key_rsa = RSA.import_key(key)
         message_h = SHA256.new(str.encode(message))
         try:
-            pkcs1_15.new(key).verify(message_h, signature)
+            pkcs1_15.new(key_rsa).verify(message_h, signature)
             print("A assinatura é válida")
         except(ValueError, TypeError):
             print("A assinatura não é válida")
