@@ -20,5 +20,6 @@ class registrar():
             chave = RSA.generate(1024)
             muda_estado_eleitor(filename, nome, cpf)
             guarda_chave_pub(cpf, chave)
+            guarda_chave_priv(cpf, chave)
             signature = request(0, nome, chave.publickey().exportKey("PEM"), self.chave)
             certificado("registrar", nome, chave.publickey().exportKey("PEM"), "BR", f"certificado{nome}.pem", signature)

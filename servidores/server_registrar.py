@@ -39,24 +39,24 @@ def handle_client(conn, addr, reg):
 
 def inscrever(conn, addr, reg, e_reg):
     print("[O CLIENTE IRA SE INSCREVER COMO ELEITOR]")
-    nonce = get_nonce()
-    cipher = get_cipher()
-    enc_aes = get_enc_aes()
+    nonce = get_nonce(conn, addr)
+    cipher = get_cipher(conn, addr)
+    enc_aes = get_enc_aes(conn, addr)
     text = e_reg.protocolo_d(nonce, cipher, enc_aes, e_reg.rsa_key)
     dados = text.split()
     reg.cadastra_eleitor(dados[0], dados[1], dados[2])
-    conn.send("Eleitor cadastrado")
+    conn.send("Eleitor cadastrado".encode(FORMAT))
 
 
 def gerar(conn, addr, reg, e_reg):
     print("[O CLIENTE IRA SE INSCREVER COMO ELEITOR]")
-    nonce = get_nonce()
-    cipher = get_cipher()
-    enc_aes = get_enc_aes()
+    nonce = get_nonce(conn, addr)
+    cipher = get_cipher(conn, addr)
+    enc_aes = get_enc_aes(conn, addr)
     text = e_reg.protocolo_d(nonce, cipher, enc_aes, e_reg.rsa_key)
     dados = text.split()
     reg.registra_eleitor(dados[0], dados[1], dados[2])
-    conn.send("Par de chaves gerado")
+    conn.send("Par de chaves gerado".encode(FORMAT))
 
 def get_nonce(conn, addr):
     connected = True
@@ -64,7 +64,7 @@ def get_nonce(conn, addr):
         msg_length = conn.recv(HEADER).decode(FORMAT)
         if msg_length:
             msg_length = int(msg_length)
-            nonce = conn.recv(msg_length).decode(FORMAT)
+            nonce = conn.recv(msg_length)
             return nonce
         
 def get_cipher(conn, addr):
@@ -73,7 +73,7 @@ def get_cipher(conn, addr):
         msg_length = conn.recv(HEADER).decode(FORMAT)
         if msg_length:
             msg_length = int(msg_length)
-            cipher = conn.recv(msg_length).decode(FORMAT)
+            cipher = conn.recv(msg_length)
             return cipher
             
 
@@ -83,7 +83,7 @@ def get_enc_aes(conn, addr):
         msg_length = conn.recv(HEADER).decode(FORMAT)
         if msg_length:
             msg_length = int(msg_length)
-            enc_aes = conn.recv(msg_length).decode(FORMAT)
+            enc_aes = conn.recv(msg_length)
             return enc_aes
             
 

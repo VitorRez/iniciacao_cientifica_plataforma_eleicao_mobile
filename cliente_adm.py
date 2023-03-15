@@ -1,5 +1,6 @@
 import socket
 from crypto.encryptDecrypt import *
+from crypto.sign import *
 from base_de_dados.manipula_BaseDados import *
 
 HEADER = 1024
@@ -13,7 +14,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
 def send(msg):
-    message = msg.encode(FORMAT)
+    message = msg
     msg_length = len(message)
     send_length = str(msg_length).encode(FORMAT)
     send_length += b' ' * (HEADER - len(send_length))
@@ -24,10 +25,12 @@ def send_to_adm(nome, cpf, unidade):
     chave_rsa = busca_chave_pub("adm")
     chave_aes = get_random_bytes(16)
     e = Encryptor(chave_rsa, chave_aes)
+    s = signature
     info = nome + " " + cpf + " " + unidade
-    cipher = e.protocolo_e(info)
-    send(str(cipher[1]))
-    send(str(cipher[0]))
+    nonce, cipher, enc_aes = e.protocolo_e(info)
+    send(nonce)
+    send(cipher)
+    send(enc_aes)
     print(client.recv(2048).decode(FORMAT))
 
 nome = 'vitor'

@@ -13,7 +13,10 @@ class signature:
     
     def verify(self, message, signature, key):
         #key_rsa = RSA.import_key(key)
-        message_h = SHA256.new(str.encode(message))
+        if type(message) == bytes:
+            message_h = SHA256.new(message)
+        else:
+            message_h = SHA256.new(str.encode(message))
         try:
             pkcs1_15.new(key).verify(message_h, signature)
             print("A assinatura é válida")

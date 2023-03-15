@@ -28,7 +28,7 @@ def inscrever(info, e):
     print(client.recv(2048).decode(FORMAT))
 
 def gerar(info, e):
-    cipher = e.protocolo_e(info)
+    nonce, cipher, enc_aes = e.protocolo_e(info)
     send(nonce)
     send(cipher)
     send(enc_aes)
