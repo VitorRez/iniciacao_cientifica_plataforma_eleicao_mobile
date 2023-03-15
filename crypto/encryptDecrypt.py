@@ -37,15 +37,14 @@ class Encryptor:
     def protocolo_e(self, msg):
         enc = self.encrypt_sym(msg)
         enc_rsa = self.encrypt(self.aes_key)
-        list = [enc[0], enc[1], enc_rsa]
-        size = len(enc[1])
-        text = listToString(list)
-        return (text, size)
+        #list = [enc[0], enc[1], enc_rsa]
+        #text = listToString(list)
+        return (enc[0], enc[1], enc_rsa)
     
-    def protocolo_d(self, text, rsa_key, size):
-        list = stringToList(text, size)
-        aes_key = self.decrypt(list[2], rsa_key)
-        msg = self.decrypt_sym(list[0], list[1], aes_key)
+    def protocolo_d(self, nonce, cipher_text, aes_enc, rsa_key):
+        #list = stringToList(cipher_text, size)
+        aes_key = self.decrypt(aes_enc, rsa_key)
+        msg = self.decrypt_sym(nonce, cipher_text, aes_key)
         return msg
     
 
@@ -67,3 +66,12 @@ def stringToList(text, size):
     list[1] = stringToByte(list[1], size)
     list[2] = stringToByte(list[2], 128)
     return list
+
+msg = 'banana'
+rsa_key = RSA.generate(1024)
+aes_key = get_random_bytes(16)
+e = Encryptor(RSA.import_key(rsa_key.public_key().export_key()), aes_key)
+nonce, cipher, enc_aes = e.protocolo_e(msg)
+print(cipher)
+plaintext = e.protocolo_d(nonce, cipher, enc_aes, rsa_key.export_key('PEM'))
+print(plaintext)

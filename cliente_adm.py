@@ -30,7 +30,7 @@ def send_to_adm(nome, cpf, unidade):
     send(str(cipher[0]))
     print(client.recv(2048).decode(FORMAT))
 
-nome = input("[NOME]: ")
-cpf = input("[CPF]: ")
-unidade = input("[UNIDADE]: ")
+nome = 'vitor'
+cpf = "12373075628"
+unidade = "1"
 send_to_adm(nome, cpf, unidade)

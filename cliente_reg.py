@@ -13,7 +13,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
 def send(msg):
-    message = msg.encode(FORMAT)
+    message = msg
     msg_length = len(message)
     send_length = str(msg_length).encode(FORMAT)
     send_length += b' ' * (HEADER - len(send_length))
@@ -21,15 +21,17 @@ def send(msg):
     client.send(message)
 
 def inscrever(info, e):
-    cipher = e.protocolo_e(info)
-    send(str(cipher[1]))
-    send(str(cipher[0]))
+    nonce, cipher, enc_aes = e.protocolo_e(info)
+    send(nonce)
+    send(cipher)
+    send(enc_aes)
     print(client.recv(2048).decode(FORMAT))
 
 def gerar(info, e):
     cipher = e.protocolo_e(info)
-    send(str(cipher[1]))
-    send(str(cipher[0]))
+    send(nonce)
+    send(cipher)
+    send(enc_aes)
     print(client.recv(2048).decode(FORMAT))
 
 def send_to_reg(nome, cpf, unidade):
@@ -38,7 +40,7 @@ def send_to_reg(nome, cpf, unidade):
     e = Encryptor(chave_rsa, chave_aes)
     info = nome + " " + cpf + " " + unidade
     msg = input("[DESEJA SE INSCREVER OU GERAR PAR DE CHAVES?]: ")
-    send(msg)
+    send(msg.encode(FORMAT))
     if msg == "inscrever":
         inscrever(info, e)
     if msg == "gerar":
