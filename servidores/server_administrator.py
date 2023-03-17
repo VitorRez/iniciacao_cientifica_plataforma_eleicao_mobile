@@ -1,4 +1,5 @@
 from entidades.registrar import *
+from crypto.sign import *
 from crypto.encryptDecrypt import *
 import socket
 import threading
@@ -18,13 +19,24 @@ def handle_client(conn, addr, adm):
     chave_rsa = adm.chave.export_key('PEM')
     chave_aes = get_random_bytes(16)
     e_adm = Encryptor(chave_rsa, chave_aes)
+    s_adm = signature(chave_rsa)
     nonce = get_nonce(conn, addr)
     cipher = get_cipher(conn, addr)
     enc_aes = get_enc_aes(conn, addr)
+    nonce_s = get_nonce(conn, addr)
+    cipher_s = get_cipher(conn, addr)
+    enc_aes_s = get_enc_aes(conn, addr)
     text = e_adm.protocolo_d(nonce, cipher, enc_aes, e_adm.rsa_key)
+    text_s = e_adm.protocolo_d(nonce_s, cipher_s, enc_aes_s, e_adm.rsa_key)
     dados = text.split()
-    adm.candidatar(dados[0], dados[1], dados[2])
-    conn.send("Candidatura aprovada".encode(FORMAT))
+    chave_eleitor = busca_chave_pub(dados[1].decode(FORMAT))
+    s_adm.verify(text, text_s, chave_eleitor)
+    try:
+        adm.candidatar(dados[0].decode('utf-8'), dados[1].decode('utf-8'), dados[2].decode('utf-8'))
+        conn.send("Candidatura aprovada".encode(FORMAT))
+    except:
+        conn.send("As chaves não correspondem".encode(FORMAT))
+        conn.close()
 
     conn.close()
 

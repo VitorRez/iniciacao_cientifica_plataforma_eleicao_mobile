@@ -94,7 +94,7 @@ def busca_chave_priv(id):
 
     filename = f"{id}_priv.PEM"
     with open(filename, "rb") as file:
-        pub_key = RSA.importKey(file.read())
-        return pub_key
+        priv_key = file.read()
+        return priv_key
         
             

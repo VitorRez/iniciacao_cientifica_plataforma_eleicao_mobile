@@ -5,9 +5,10 @@ from base_de_dados.manipula_BaseDados import *
 chave_aes = get_random_bytes(16)
 chave = RSA.generate(1024)
 guarda_chave_pub("teste", chave)
+guarda_chave_priv("teste", chave)
 
 chave_pub = busca_chave_pub("teste")
-chave_priv = chave.export_key('PEM')
+chave_priv = busca_chave_priv("teste")
 
 msg = "banana"
 s = signature(chave_priv)

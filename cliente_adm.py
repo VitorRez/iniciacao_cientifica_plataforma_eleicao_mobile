@@ -23,14 +23,20 @@ def send(msg):
 
 def send_to_adm(nome, cpf, unidade):
     chave_rsa = busca_chave_pub("adm")
+    chave_rsa_priv = busca_chave_priv(cpf)
     chave_aes = get_random_bytes(16)
     e = Encryptor(chave_rsa, chave_aes)
-    s = signature
+    s = signature(chave_rsa_priv)
     info = nome + " " + cpf + " " + unidade
+    sign = s.sign(info)
     nonce, cipher, enc_aes = e.protocolo_e(info)
+    nonce_s, cipher_s, enc_aes_s = e.protocolo_e(sign)
     send(nonce)
     send(cipher)
     send(enc_aes)
+    send(nonce_s)
+    send(cipher_s)
+    send(enc_aes_s)
     print(client.recv(2048).decode(FORMAT))
 
 nome = 'vitor'
