@@ -1,5 +1,7 @@
 import csv
 from Crypto.PublicKey import RSA
+from crypto.encryptDecrypt import *
+from crypto.PBKDF import *
 
 def cadastra_eleitor(filename, nome, cpf, unidade):
 
@@ -77,11 +79,16 @@ def guarda_chave_pub(id, chave):
     with open(filename, "wb") as file:
         file.write(chave.public_key().exportKey('PEM'))
 
-def guarda_chave_priv(id, chave):
+def guarda_chave_priv(id, key, password):
 
+    salt = get_salt(id)
     filename = f"{id}_priv.PEM"
+    nonce, enc_key = encrypt_pbkdf(key, password, salt)
     with open(filename, "wb") as file:
-        file.write(chave.exportKey('PEM'))
+        file.write(enc_key)
+    filename = f"{id}_nonce.PEM"
+    with open(filename, "wb") as file:
+        file.write(nonce)
        
 def busca_chave_pub(id):
 
@@ -90,11 +97,29 @@ def busca_chave_pub(id):
         pub_key = RSA.importKey(file.read())
         return pub_key
     
-def busca_chave_priv(id):
+def busca_chave_priv(id, password):
 
+    salt = get_salt(id)
     filename = f"{id}_priv.PEM"
     with open(filename, "rb") as file:
-        priv_key = file.read()
-        return priv_key
+        enc_key = file.read()
+    filename = f"{id}_nonce.PEM"
+    with open(filename, "rb") as file:
+        nonce = file.read()
+    key = decrypt_pbkdf(nonce, enc_key, password, salt)
+    return key
+        
+def store_salt(id, salt):
+
+    filename = f"{id}_salt.txt"
+    with open(filename, "wb") as file:
+        file.write(salt)
+
+def get_salt(id):
+
+    filename = f"{id}_salt.txt"
+    with open(filename, "rb") as file:
+        salt = file.read()
+        return salt
         
             

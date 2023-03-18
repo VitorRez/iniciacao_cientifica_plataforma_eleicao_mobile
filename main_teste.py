@@ -18,4 +18,4 @@ tal = tallier()
 
 autoridade_certificadora(aut, reg, adm, val, tal)
 
-start_reg(reg)
+start_adm(adm)

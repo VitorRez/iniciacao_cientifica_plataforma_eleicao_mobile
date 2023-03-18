@@ -22,8 +22,9 @@ def send(msg):
     client.send(message)
 
 def send_to_adm(nome, cpf, unidade):
+    password = input("password: ")
     chave_rsa = RSA.import_key(client.recv(2048))
-    chave_rsa_priv = busca_chave_priv(f"clientes/{cpf}")
+    chave_rsa_priv = busca_chave_priv(f"clientes/{cpf}", password)
     chave_rsa_pub = busca_chave_pub(f"clientes/{cpf}").export_key()
     chave_aes = get_random_bytes(16)
     e = Encryptor(chave_rsa, chave_aes)

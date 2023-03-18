@@ -4,6 +4,7 @@ from crypto.PBKDF import *
 from base_de_dados.manipula_BaseDados import *
 from certificados.autoridade_certificadora import *
 from Crypto.PublicKey import RSA
+from Crypto.Random import get_random_bytes
 
 HEADER = 1024
 PORT = 5050
@@ -31,11 +32,14 @@ def inscrever(info, e):
     print(client.recv(2048).decode(FORMAT))
 
 def gerar(info, e):
+    password = input("Password: ")
+    salt = get_random_bytes(16)
     dados = info.split()
+    store_salt(f"clientes/{dados[1]}", salt)
     nonce, cipher, enc_aes = e.protocolo_e(info)
     key = RSA.generate(1024)
     guarda_chave_pub(f"clientes/{dados[1]}", key)
-    guarda_chave_priv(f"clientes/{dados[1]}", key)
+    guarda_chave_priv(f"clientes/{dados[1]}", key, password)
     sign = request(0, dados[0], key.public_key().export_key(), key)
     certificado("registrar", dados[0], key.public_key().export_key(), "BR", f"clientes/certificado_{dados[0]}.pem", sign)
     send(nonce)
