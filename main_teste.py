@@ -18,21 +18,4 @@ tal = tallier()
 
 autoridade_certificadora(aut, reg, adm, val, tal)
 
-start_adm(adm)
-
-#thread_adm = threading.Thread(target=start_adm, args=adm)
-#thread_reg = threading.Thread(target=start_reg, args=reg)
-#thread_adm.start()
-#thread_reg.start()
-
-#nome = "vitor"
-#cpf = "12373075628"
-#unidade = "1"
-
-#nome = [" "]
-#while nome != "\n":
-#    nome = input("Digite o nome: ")
-#    cpf = input("Digite o cpf: ")
-#    unidade = input("Digite a unidade: ")
-
-#    reg.registra_eleitor("teste.csv", nome, cpf, unidade)
+start_reg(reg)

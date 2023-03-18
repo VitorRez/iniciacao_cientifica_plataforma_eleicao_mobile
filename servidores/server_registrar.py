@@ -15,6 +15,8 @@ server.bind(ADDR)
 
 def handle_client(conn, addr, reg):
     print(f"[NEW CONNECTION] {addr} connected.")
+    chave_pub = reg.chave.public_key().export_key()
+    conn.send(chave_pub)
     chave_rsa = reg.chave.export_key('PEM')
     chave_aes = get_random_bytes(16)
     e_reg = Encryptor(chave_rsa, chave_aes)
@@ -55,7 +57,8 @@ def gerar(conn, addr, reg, e_reg):
     enc_aes = get_enc_aes(conn, addr)
     text = e_reg.protocolo_d(nonce, cipher, enc_aes, e_reg.rsa_key)
     dados = text.split()
-    reg.registra_eleitor(dados[0].decode('utf-8'), dados[1].decode('utf-8'), dados[2].decode('utf-8'))
+    chave = RSA.import_key(get_key(conn, addr))
+    reg.registra_eleitor(dados[0].decode('utf-8'), dados[1].decode('utf-8'), dados[2].decode('utf-8'), chave)
     conn.send("Par de chaves gerado".encode(FORMAT))
 
 def get_nonce(conn, addr):
@@ -86,6 +89,14 @@ def get_enc_aes(conn, addr):
             enc_aes = conn.recv(msg_length)
             return enc_aes
             
+def get_key(conn, addr):
+    connected = True
+    while connected:
+        msg_length = conn.recv(HEADER).decode(FORMAT)
+        if msg_length:
+            msg_length = int(msg_length)
+            key = conn.recv(msg_length)
+            return key
 
 def start_reg(reg):
     server.listen()

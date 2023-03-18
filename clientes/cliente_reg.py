@@ -1,8 +1,9 @@
 import socket
-import os
 from crypto.encryptDecrypt import *
+from crypto.PBKDF import *
 from base_de_dados.manipula_BaseDados import *
-#from entidades.eleitores import *
+from certificados.autoridade_certificadora import *
+from Crypto.PublicKey import RSA
 
 HEADER = 1024
 PORT = 5050
@@ -15,7 +16,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
 def send(msg):
-    message = msg.encode(FORMAT)
+    message = msg
     msg_length = len(message)
     send_length = str(msg_length).encode(FORMAT)
     send_length += b' ' * (HEADER - len(send_length))
@@ -23,25 +24,33 @@ def send(msg):
     client.send(message)
 
 def inscrever(info, e):
-    cipher = e.protocolo_e(info)
-    send(cipher[1])
-    send(str(cipher[0]))
+    nonce, cipher, enc_aes = e.protocolo_e(info)
+    send(nonce)
+    send(cipher)
+    send(enc_aes)
     print(client.recv(2048).decode(FORMAT))
 
 def gerar(info, e):
-    cipher = e.protocolo_e(info)
-    send(cipher[1])
-    send(str(cipher[0]))
+    dados = info.split()
+    nonce, cipher, enc_aes = e.protocolo_e(info)
+    key = RSA.generate(1024)
+    guarda_chave_pub(f"clientes/{dados[1]}", key)
+    guarda_chave_priv(f"clientes/{dados[1]}", key)
+    sign = request(0, dados[0], key.public_key().export_key(), key)
+    certificado("registrar", dados[0], key.public_key().export_key(), "BR", f"clientes/certificado_{dados[0]}.pem", sign)
+    send(nonce)
+    send(cipher)
+    send(enc_aes)
+    send(key.public_key().export_key())
     print(client.recv(2048).decode(FORMAT))
 
 def send_to_reg(nome, cpf, unidade):
-    chave_rsa = busca_chave_entidade("reg")
-    print(chave_rsa)
+    chave_rsa = RSA.import_key(client.recv(2048))
     chave_aes = get_random_bytes(16)
     e = Encryptor(chave_rsa, chave_aes)
     info = nome + " " + cpf + " " + unidade
     msg = input("[DESEJA SE INSCREVER OU GERAR PAR DE CHAVES?]: ")
-    send(msg)
+    send(msg.encode(FORMAT))
     if msg == "inscrever":
         inscrever(info, e)
     if msg == "gerar":
@@ -52,4 +61,3 @@ nome = 'vitor'
 cpf = "12373075628"
 unidade = "1"
 send_to_reg(nome, cpf, unidade)
-        

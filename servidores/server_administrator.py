@@ -16,6 +16,8 @@ server.bind(ADDR)
 
 def handle_client(conn, addr, adm):
     print(f"[NEW CONNECTION] {addr} connected.")
+    chave_pub = adm.chave.public_key().export_key()
+    conn.send(chave_pub)
     chave_rsa = adm.chave.export_key('PEM')
     chave_aes = get_random_bytes(16)
     e_adm = Encryptor(chave_rsa, chave_aes)
@@ -29,7 +31,7 @@ def handle_client(conn, addr, adm):
     text = e_adm.protocolo_d(nonce, cipher, enc_aes, e_adm.rsa_key)
     text_s = e_adm.protocolo_d(nonce_s, cipher_s, enc_aes_s, e_adm.rsa_key)
     dados = text.split()
-    chave_eleitor = busca_chave_pub(dados[1].decode(FORMAT))
+    chave_eleitor = RSA.import_key(get_key(conn, addr))
     s_adm.verify(text, text_s, chave_eleitor)
     try:
         adm.candidatar(dados[0].decode('utf-8'), dados[1].decode('utf-8'), dados[2].decode('utf-8'))
@@ -67,6 +69,15 @@ def get_enc_aes(conn, addr):
             msg_length = int(msg_length)
             enc_aes = conn.recv(msg_length)
             return enc_aes
+        
+def get_key(conn, addr):
+    connected = True
+    while connected:
+        msg_length = conn.recv(HEADER).decode(FORMAT)
+        if msg_length:
+            msg_length = int(msg_length)
+            key = conn.recv(msg_length)
+            return key
 
 def start_adm(adm):
     server.listen()
