@@ -10,9 +10,6 @@ ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(ADDR)
-
 def handle_client(conn, addr, reg):
     print(f"[NEW CONNECTION] {addr} connected.")
     chave_pub = reg.chave.public_key().export_key()
@@ -98,11 +95,17 @@ def get_key(conn, addr):
             key = conn.recv(msg_length)
             return key
 
-def start_reg(reg):
-    server.listen()
-    print(f"[LISTENING] Server is listerning on {SERVER}")
-    while True:
-        conn, addr = server.accept()
-        thread = threading.Thread(target=handle_client, args=(conn, addr, reg))
-        thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+class server_reg():
+    def __init__(self, reg):
+        self.reg = reg
+
+    def start_reg(self):
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.bind(ADDR)
+        server.listen()
+        print(f"[LISTENING] Registrar server is listerning on {SERVER}")
+        while True:
+            conn, addr = server.accept()
+            thread = threading.Thread(target=handle_client, args=(conn, addr, self.reg))
+            thread.start()
+            print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")

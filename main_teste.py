@@ -18,4 +18,10 @@ tal = tallier()
 
 autoridade_certificadora(aut, reg, adm, val, tal)
 
-start_adm(adm)
+#start_reg(reg)
+s_reg = server_reg(reg)
+s_adm = server_adm(adm)
+thread_reg = threading.Thread(target=s_reg.start_reg)
+thread_adm = threading.Thread(target=s_adm.start_adm)
+thread_reg.start()
+thread_adm.start()

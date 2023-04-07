@@ -11,9 +11,6 @@ ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(ADDR)
-
 def handle_client(conn, addr, adm):
     print(f"[NEW CONNECTION] {addr} connected.")
     chave_pub = adm.chave.public_key().export_key()
@@ -79,12 +76,18 @@ def get_key(conn, addr):
             key = conn.recv(msg_length)
             return key
 
-def start_adm(adm):
-    server.listen()
-    print(f"[LISTENING] Server is listening on {SERVER}")
-    while True:
-        conn, addr = server.accept()
-        thread = threading.Thread(target=handle_client, args=(conn, addr, adm))
-        thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+class server_adm():
+    def __init__(self, adm):
+        self.adm = adm
+
+    def start_adm(self):
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.bind(ADDR)
+        server.listen()
+        print(f"[LISTENING] Administrator server is listening on {SERVER}")
+        while True:
+            conn, addr = server.accept()
+            thread = threading.Thread(target=handle_client, args=(conn, addr, self.adm))
+            thread.start()
+            print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
 

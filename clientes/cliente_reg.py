@@ -14,7 +14,6 @@ SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(ADDR)
 
 def send(msg):
     message = msg
@@ -49,6 +48,7 @@ def gerar(info, e):
     print(client.recv(2048).decode(FORMAT))
 
 def send_to_reg(nome, cpf, unidade):
+    client.connect(ADDR)
     chave_rsa = RSA.import_key(client.recv(2048))
     chave_aes = get_random_bytes(16)
     e = Encryptor(chave_rsa, chave_aes)
@@ -61,7 +61,3 @@ def send_to_reg(nome, cpf, unidade):
         gerar(info, e)
 
 
-nome = 'vitor'
-cpf = "12373075628"
-unidade = "1"
-send_to_reg(nome, cpf, unidade)

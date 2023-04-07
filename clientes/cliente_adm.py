@@ -11,7 +11,6 @@ SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(ADDR)
 
 def send(msg):
     message = msg
@@ -22,6 +21,7 @@ def send(msg):
     client.send(message)
 
 def send_to_adm(nome, cpf, unidade):
+    client.connect(ADDR)
     password = input("password: ")
     chave_rsa = RSA.import_key(client.recv(2048))
     chave_rsa_priv = busca_chave_priv(f"clientes/{cpf}", password)
@@ -42,7 +42,3 @@ def send_to_adm(nome, cpf, unidade):
     send(chave_rsa_pub)
     print(client.recv(2048).decode(FORMAT))
 
-nome = 'vitor'
-cpf = "12373075628"
-unidade = "1"
-send_to_adm(nome, cpf, unidade)
