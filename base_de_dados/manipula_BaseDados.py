@@ -2,6 +2,7 @@ import csv
 from Crypto.PublicKey import RSA
 from crypto.encryptDecrypt import *
 from crypto.PBKDF import *
+from crypto.hashing import *
 
 def cadastra_eleitor(filename, nome, cpf, unidade):
 
@@ -84,6 +85,8 @@ def guarda_chave_priv(id, key, password):
     salt = get_salt(id)
     filename = f"{id}_priv.PEM"
     nonce, enc_key = encrypt_pbkdf(key, password, salt)
+    p_hash = create_hash(password)
+    store_hash(id, p_hash)
     with open(filename, "wb") as file:
         file.write(enc_key)
     filename = f"{id}_nonce.PEM"
@@ -106,8 +109,13 @@ def busca_chave_priv(id, password):
     filename = f"{id}_nonce.PEM"
     with open(filename, "rb") as file:
         nonce = file.read()
-    key = decrypt_pbkdf(nonce, enc_key, password, salt)
-    return key
+    p_hash = get_hash(id)
+    x = verify_hash(password, p_hash)
+    if x:
+        key = decrypt_pbkdf(nonce, enc_key, password, salt)
+        return key
+    else:
+        return None
         
 def store_salt(id, salt):
 
@@ -121,5 +129,19 @@ def get_salt(id):
     with open(filename, "rb") as file:
         salt = file.read()
         return salt
-        
+    
+def store_hash(id, hash):
+
+    filename = f"{id}_hash.txt"
+    with open(filename, "wb") as file:
+        file.write(hash)
+
+def get_hash(id):
+
+    filename = f"{id}_hash.txt"
+    with open(filename, "rb") as file:
+        hash = file.read()
+        return hash
+
+
             

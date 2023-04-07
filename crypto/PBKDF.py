@@ -21,6 +21,13 @@ def decrypt_pbkdf(nonce, enc_key, password, salt):
     key_rsa = e.decrypt_sym(nonce, enc_key, key_sym)
     return key_rsa
 
+def verify_password(password, p_hash):
+    p_hash1 = SHA256.new(bytes(password,'utf-8'))
+    if p_hash == p_hash1:
+        return True
+    else:
+        return False
+    
 #msg = 'banana'
 #password = 'amobanana'
 #salt = get_random_bytes(16)
