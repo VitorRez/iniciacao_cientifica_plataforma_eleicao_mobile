@@ -94,7 +94,7 @@ def busca_chave_pub(id, local):
         text = file.read()
         text = text.split("pub:\n            ")
         text = text[1].split("Signature")
-        print(text[0])
+        #print(text[0])
         pubkey = RSA.import_key(text[0])
         return pubkey
     
