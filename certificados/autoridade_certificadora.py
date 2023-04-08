@@ -14,7 +14,7 @@ def request(version, subject_name, subjectPKInfo, issuerPriKey):
     return signature
 
 def certificado(issuer_name, sub_name, sub_pubkey, sub_country, id, local, signature):
-    filename = f"{local}/certificado_{id}.txt"
+    filename = f"{local}/certificado_{id}.pem"
     with open(filename, "w") as cert:
         current_time = datetime.datetime.now()
         issuer_country = "BR"
@@ -32,16 +32,11 @@ def certificado(issuer_name, sub_name, sub_pubkey, sub_country, id, local, signa
         cert.write("            Public key algorithm: RSA\n    Public-key: (2048 bit)\n")
         cert.write("            Public-key: (1024 bit)\n")
         cert.write("            pub:\n")
-        cert.write("            %s\n"%(sub_pubkey))
+        cert.write("            %s\n"%(sub_pubkey.decode()))
         cert.write("    Signature Algorithm: sha256WithRSAEncryption\n")
         cert.write("        %s\n"%(signature))
 
 def autoridade_certificadora(aut, reg, adm, val, tal):
-    #aut.chave = RSA.generate(2048)
-    #reg.chave = RSA.generate(2048)
-    #adm.chave = RSA.generate(2048)
-    #val.chave = RSA.generate(2048)
-    #tal.chave = RSA.generate(2048)
     sign_aut_req = request(0, "autoridade_certificadora",aut.chave.public_key().export_key("PEM"), aut.chave)
     sign_reg_req = request(1, 'registrar', reg.chave.public_key().export_key("PEM"), reg.chave)
     sign_adm_req = request(2, 'adiminstrador', adm.chave.public_key().export_key("PEM"), adm.chave)

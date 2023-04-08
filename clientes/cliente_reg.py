@@ -37,7 +37,6 @@ def gerar(info, e):
     store_salt(f"clientes/{dados[1]}", salt)
     nonce, cipher, enc_aes = e.protocolo_e(info)
     key = RSA.generate(1024)
-    guarda_chave_pub(f"clientes/{dados[1]}", key)
     guarda_chave_priv(f"clientes/{dados[1]}", key, password)
     sign = request(0, dados[0], key.public_key().export_key(), key)
     certificado("registrar", dados[0], key.public_key().export_key(), "BR", dados[1], "clientes", sign)

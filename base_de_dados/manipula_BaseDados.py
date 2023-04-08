@@ -74,12 +74,6 @@ def busca_cand(filename, candList):
                 eleitor = [linha['nome'], linha['cpf'], linha['unidade'], linha['validade'], linha['candidato']]
                 candList.append(eleitor)
 
-def guarda_chave_pub(id, chave):
-
-    filename = f"{id}.PEM"
-    with open(filename, "wb") as file:
-        file.write(chave.public_key().exportKey('PEM'))
-
 def guarda_chave_priv(id, key, password):
 
     salt = get_salt(id)
@@ -93,12 +87,16 @@ def guarda_chave_priv(id, key, password):
     with open(filename, "wb") as file:
         file.write(nonce)
        
-def busca_chave_pub(id):
+def busca_chave_pub(id, local):
 
-    filename = f"{id}.PEM"
-    with open(filename, "rb") as file:
-        pub_key = RSA.importKey(file.read())
-        return pub_key
+    filename = f"{local}/certificado_{id}.pem"
+    with open(filename, "r") as file:
+        text = file.read()
+        text = text.split("pub:\n            ")
+        text = text[1].split("Signature")
+        print(text[0])
+        pubkey = RSA.import_key(text[0])
+        return pubkey
     
 def busca_chave_priv(id, password):
 
@@ -142,6 +140,3 @@ def get_hash(id):
     with open(filename, "rb") as file:
         hash = file.read()
         return hash
-
-
-            

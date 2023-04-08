@@ -7,7 +7,6 @@ class registrar():
 
     def __init__(self):
         self.chave = RSA.generate(1024)
-        guarda_chave_pub('base_de_dados/reg', self.chave)
     
     def cadastra_eleitor(self, nome, cpf, unidade):
         cadastra_eleitor("base_de_dados/eleitores.csv", nome, cpf, unidade)

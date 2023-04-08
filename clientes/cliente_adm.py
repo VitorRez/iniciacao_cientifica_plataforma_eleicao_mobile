@@ -26,7 +26,7 @@ def send_to_adm(nome, cpf, unidade):
     chave_rsa = RSA.import_key(client.recv(2048))
     chave_rsa_priv = busca_chave_priv(f"clientes/{cpf}", password)
     if chave_rsa_priv != None:
-        chave_rsa_pub = busca_chave_pub(f"clientes/{cpf}").export_key()
+        chave_rsa_pub = busca_chave_pub(cpf, "clientes").export_key()
         chave_aes = get_random_bytes(16)
         e = Encryptor(chave_rsa, chave_aes)
         s = signature(chave_rsa_priv)

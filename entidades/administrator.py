@@ -7,7 +7,6 @@ class administrator():
 
     def __init__(self):
         self.chave = RSA.generate(1024)
-        guarda_chave_pub('base_de_dados/adm', self.chave)
 
     def candidatar(self, nome, cpf, unidade):
         x = busca_eleitor("base_de_dados/eleitores.csv", nome, cpf, unidade)
