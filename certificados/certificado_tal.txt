@@ -1,0 +1,18 @@
+Certificate:
+    Data:
+        Version:
+        Serial number:
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=BR, O=autoridade_certificadora
+        Validity:
+            Not Before: 4 8 0:18:54 2023
+            Not After: 4 8 0:18:54 2024
+        Subject: C=BR, ST=MG, O=tallier
+        Subject Public Key Info:
+             Public key algorithm: RSA
+    Public-key: (2048 bit)
+            Public-key: (1024 bit)
+            pub:
+            b'-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwRLeNokxwJr6a3cdS7MM\nyX8swi3MwknLhV07kidtRhZH5eQJnmg3p/U0D69msjLYwqY+dCd9Y60ioK7w+ib8\nK6K36ak9j+BhUb11VzpVRJRrJMft+vhHCSX6sg9rLFCZNCVZWR29D9WhpcTaUC9z\nlnsxnEirchENZHb8i3ePQyTJhdGF2rDSW9DPmWOMLtHkevh0+3dlNztyhBjedF3N\n4oXUbI20Puu5Frp/R1akcE0PEJhqTAFsCmk9tRa5GH0mTn/AdcP06tRdicSu9n+B\nf7lCgnsKL8bhD2zRU8Q1lH6uc/ck1Unl4hjmoh5IT+VtbGmU3146rAI7amD8NMZR\nTwIDAQAB\n-----END PUBLIC KEY-----'
+    Signature Algorithm: sha256WithRSAEncryption
+        b'u\x94V\x92\xa9\x94\xa8x\r\xef8\x9cG\xb8\xb4\x99\xd9\xcc\xe7\xc4\xffQ\xa10\xc9!\xb4\xe2\xd2fr\xf4\xdc\xc83\x144\xfc`l\x06,_\xf1W\x01@/L\x08\x04*\xf0b\xcf\t\xe5\xc1\x0ctY\xd1,<mPj\x8e9\x16x3\xdc\x9eUm\x1e\xe3\n\x0b\x96\xb0|k]\x9c\xe4\xcc#\xbb\xd0\x01=\x96u\xc3\xbd\x9d`\xdb\xbf\xf89\xf0\x85\xff\xcc\xc6\xc90p\xca\xa6\x85\xa1\x98\xd07\x9e)9uy\xf0\x18\xb24\xd8\xe9A5w\xd3\'\x14\xf3|>5\xcc\xc3\x98\xd0{)$\x0e\x8f\x16\xed\n\x98p?\x81l\x19\xe5\xf5*\xcd\xb1"z\x03v\x189\xe7\t\xcc\xc3>Q\xb08\xd4\x80\xdd\xabN\x1e\x86\xc2\x8f\xde\xfdI\x15i\x07\x9cP\xc7\x1c\xb2\x990Y\xc83\x84\xd52|\xaf7\xfe\xe4\x8c7!\x04* \xdb0\\+v\xfaA\x98\\P\xa8\x92\xf6v\xe9\x8d\xb4\x01Q#\x97\x18\xaee9h&D\x11\xec-u\xdd\x92\xa1\xbc8f"\xfd<'

@@ -40,7 +40,7 @@ def gerar(info, e):
     guarda_chave_pub(f"clientes/{dados[1]}", key)
     guarda_chave_priv(f"clientes/{dados[1]}", key, password)
     sign = request(0, dados[0], key.public_key().export_key(), key)
-    certificado("registrar", dados[0], key.public_key().export_key(), "BR", f"clientes/certificado_{dados[0]}.pem", sign)
+    certificado("registrar", dados[0], key.public_key().export_key(), "BR", dados[1], "clientes", sign)
     send(nonce)
     send(cipher)
     send(enc_aes)

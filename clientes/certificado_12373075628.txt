@@ -1,0 +1,18 @@
+Certificate:
+    Data:
+        Version:
+        Serial number:
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=BR, O=registrar
+        Validity:
+            Not Before: 4 8 0:19:40 2023
+            Not After: 4 8 0:19:40 2024
+        Subject: C=BR, ST=MG, O=vitor
+        Subject Public Key Info:
+             Public key algorithm: RSA
+    Public-key: (2048 bit)
+            Public-key: (1024 bit)
+            pub:
+            b'-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQClLBI73yDkjfi6SFzaBdAqIsQ7\nlsEtsn+qXGgYDKMJGrsDtI5cFsjim1I/lntlyo9NdX46eZBWLIzDidHwKMKGImGc\nucPmB5Kl0jVsbUu/ZPjSlVpKGsEeiSUr1tMghFpbD8cZAmbrkKuriMMgBBqoMcOl\nJWz6gBDnTwZp1i+WRQIDAQAB\n-----END PUBLIC KEY-----'
+    Signature Algorithm: sha256WithRSAEncryption
+        b'\x8b\xbf\x02#\xc3\xc6\xd1\xba\x7f\xc7C\x11\xbc2N#\xeek\x7f\xc0"`\nD\x05\xf4\x0c\x14Y\xa9\x1d\x80^\xc5"G\x0b\'\xde\xee}\x04\x1e%\x7f\xdf\xfa\x0bh\'\x11t\xf4\xa7\x93\xb9\xa8\x14\x0c\x07\xaf\xcc\xb7\x96R\xb4\xae\xa7\x18\x85bj=\x91A\xc5B)\x9f\xc5\x12\x81A*\x9d\xe1\xb5y\x19c\x82\xdd\x15\xdb\x12\xba\x0bS3\xf1U\xbe8\x82\xe3\x9e\x9a\xbd\xf6\xd4\x9ek(%\xdf\xc4`\x9c\xe5$b3\x99\xa0\x0b\x9a\xe5\xea'
