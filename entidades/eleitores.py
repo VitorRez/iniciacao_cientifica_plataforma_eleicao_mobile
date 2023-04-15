@@ -14,7 +14,7 @@ class eleitor():
         self.chave_pub = chave_pub
 
 
-#classe que representa os eleitores que são candidatos
+#classe que representa os eleitores que são candidatos 
 class candidatos():
 
     def __init__(self):

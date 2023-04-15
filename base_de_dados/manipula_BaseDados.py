@@ -4,13 +4,14 @@ from crypto.encryptDecrypt import *
 from crypto.PBKDF import *
 from crypto.hashing import *
 
+#salva os dados do eleitor no arquivo csv
 def cadastra_eleitor(filename, nome, cpf, unidade):
 
     with open(filename, 'a') as arquivo_csv:
         escreve_csv = csv.writer(arquivo_csv)
         escreve_csv.writerow([nome, cpf, unidade, "0", "0"])
 
-
+#verifica se os dados do eleitor está no arquivo csv
 def busca_eleitor(filename, nome, cpf, unidade):
     
     with open(filename, "r") as arquivo_csv:
@@ -22,6 +23,7 @@ def busca_eleitor(filename, nome, cpf, unidade):
                     return True
         return False
     
+#busca os dados do eleitor no arquivo csv
 def busca_dados(filename, nome, cpf, unidade):
     
     with open(filename, "r") as arquivo_csv:
@@ -32,6 +34,7 @@ def busca_dados(filename, nome, cpf, unidade):
                 return True
         return False
 
+#transforma o eleitor, uma vez que ele ja esteja nos arquivos, como um eleitor válido para eleição
 def muda_estado_eleitor(filename, nome, cpf):
 
     with open(filename, "r+") as arquivo_csv:
@@ -48,6 +51,7 @@ def muda_estado_eleitor(filename, nome, cpf):
             cont += (len(linha['nome'])+len(linha['cpf'])+len(linha['unidade'])+len(linha['validade'])+len(linha['candidato'])+5)
             os += 1
 
+#regista um eleitor ja validado como candidato
 def reg_candidato(filename, nome, cpf):
 
     with open(filename, "r+") as arquivo_csv:
@@ -64,6 +68,7 @@ def reg_candidato(filename, nome, cpf):
             cont += (len(linha['nome'])+len(linha['cpf'])+len(linha['unidade'])+len(linha['validade'])+len(linha['candidato'])+5)
             os += 1
 
+#busca os dados de um candidato no arquivo csv
 def busca_cand(filename, candList):
 
     with open(filename, 'r') as arquivo_csv:
@@ -74,6 +79,8 @@ def busca_cand(filename, candList):
                 eleitor = [linha['nome'], linha['cpf'], linha['unidade'], linha['validade'], linha['candidato']]
                 candList.append(eleitor)
 
+
+#guarda a chave privada do eleitor, encriptada por uma senha 
 def guarda_chave_priv(id, key, password):
 
     salt = get_salt(id)
@@ -87,6 +94,7 @@ def guarda_chave_priv(id, key, password):
     with open(filename, "wb") as file:
         file.write(nonce)
        
+#busca a chave publica de um eleitor ou entidade no seu respectivo certificado x509
 def busca_chave_pub(id, local):
 
     filename = f"{local}/certificado_{id}.pem"
@@ -98,6 +106,7 @@ def busca_chave_pub(id, local):
         pubkey = RSA.import_key(text[0])
         return pubkey
     
+#busca a chave privada encriptada de um eleitor ou entidade    
 def busca_chave_priv(id, password):
 
     salt = get_salt(id)
@@ -115,12 +124,14 @@ def busca_chave_priv(id, password):
     else:
         return None
         
+#guarda o sal usado para encriptar a chave privada
 def store_salt(id, salt):
 
     filename = f"{id}_salt.txt"
     with open(filename, "wb") as file:
         file.write(salt)
 
+#busca o sal usado para decriptar uma chave privada
 def get_salt(id):
 
     filename = f"{id}_salt.txt"
@@ -128,12 +139,14 @@ def get_salt(id):
         salt = file.read()
         return salt
     
+#guarda o hash da senha de um eleitor
 def store_hash(id, hash):
 
     filename = f"{id}_hash.txt"
     with open(filename, "wb") as file:
         file.write(hash)
 
+#busca o hash da senha de um eleitor
 def get_hash(id):
 
     filename = f"{id}_hash.txt"

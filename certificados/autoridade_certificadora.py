@@ -4,7 +4,8 @@ from Crypto.Hash import SHA256
 from Crypto import *
 import datetime
 
-
+#gera o request de um certificado, esse request é a informação que será encriptada para verificar
+#a autenticidade de um certificado x509
 def request(version, subject_name, subjectPKInfo, issuerPriKey):
     request = "version: %d\nsubject_name: %s\nsubjectPKInfo: %s\n"%(version, subject_name, subjectPKInfo)
     request_b = str.encode(request)
@@ -13,6 +14,7 @@ def request(version, subject_name, subjectPKInfo, issuerPriKey):
     signature = pkcs1_15.new(issuerPriKey).sign(h)
     return signature
 
+#gera o certificado x509 de um eleitor ou entidade
 def certificado(issuer_name, sub_name, sub_pubkey, sub_country, id, local, signature):
     filename = f"{local}/certificado_{id}.pem"
     with open(filename, "w") as cert:
@@ -36,6 +38,7 @@ def certificado(issuer_name, sub_name, sub_pubkey, sub_country, id, local, signa
         cert.write("    Signature Algorithm: sha256WithRSAEncryption\n")
         cert.write("        %s\n"%(signature))
 
+#gera as requests e os certificados das principais entidade da etapa de pre eleição
 def autoridade_certificadora(aut, reg, adm, val, tal):
     sign_aut_req = request(0, "autoridade_certificadora",aut.chave.public_key().export_key("PEM"), aut.chave)
     sign_reg_req = request(1, 'registrar', reg.chave.public_key().export_key("PEM"), reg.chave)

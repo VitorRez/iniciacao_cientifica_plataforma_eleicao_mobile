@@ -3,6 +3,7 @@ from Crypto import *
 from certificados.autoridade_certificadora import *
 from base_de_dados.manipula_BaseDados import *
 
+#classe que representa a autoridade certificadora
 class autoridade():
 
     def __init__(self):

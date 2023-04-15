@@ -12,6 +12,7 @@ ADDR = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+#função para enviar uma mensagem para o servidor do administrador
 def send(msg):
     message = msg
     msg_length = len(message)
@@ -20,6 +21,8 @@ def send(msg):
     client.send(send_length)
     client.send(message)
 
+#envia os dados do eleitor juntamente com os dados assinados para a verificação
+#durante a etapa de candidatura
 def send_to_adm(nome, cpf, unidade):
     client.connect(ADDR)
     password = input("password: ")

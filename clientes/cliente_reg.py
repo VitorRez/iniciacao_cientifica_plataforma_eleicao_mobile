@@ -23,6 +23,7 @@ def send(msg):
     client.send(send_length)
     client.send(message)
 
+#envia as informações para inscrever um eleitor no sistema
 def inscrever(info, e):
     nonce, cipher, enc_aes = e.protocolo_e(info)
     send(nonce)
@@ -30,6 +31,7 @@ def inscrever(info, e):
     send(enc_aes)
     print(client.recv(2048).decode(FORMAT))
 
+#envia os dados para gerar validar o eleitor e gera um par de chaves do rsa
 def gerar(info, e):
     password = input("Password: ")
     salt = get_random_bytes(16)
@@ -46,6 +48,7 @@ def gerar(info, e):
     send(key.public_key().export_key())
     print(client.recv(2048).decode(FORMAT))
 
+#função para enviar uma mensagem para o servidor do servidor
 def send_to_reg(nome, cpf, unidade):
     client.connect(ADDR)
     chave_rsa = RSA.import_key(client.recv(2048))
