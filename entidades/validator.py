@@ -1,7 +1,7 @@
 from Crypto.PublicKey import RSA
 from Crypto import *
 from certificados.autoridade_certificadora import *
-from base_de_dados.manipula_BaseDados import *
+from base_de_dados.DataBaseManagement import *
 
 #classe que representa a entidade do validador
 class validator():

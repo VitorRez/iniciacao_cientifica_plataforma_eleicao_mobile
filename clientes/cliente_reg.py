@@ -1,7 +1,8 @@
 import socket
 from crypto.encryptDecrypt import *
 from crypto.PBKDF import *
-from base_de_dados.manipula_BaseDados import *
+from base_de_dados.DataBaseManagement import *
+from base_de_dados.KeyManagement import *
 from certificados.autoridade_certificadora import *
 from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes

@@ -1,7 +1,8 @@
 import socket
 from crypto.encryptDecrypt import *
 from crypto.sign import *
-from base_de_dados.manipula_BaseDados import *
+from base_de_dados.DataBaseManagement import *
+from base_de_dados.KeyManagement import *
 
 HEADER = 1024
 PORT = 5055
