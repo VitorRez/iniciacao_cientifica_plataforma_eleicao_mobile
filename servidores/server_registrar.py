@@ -55,7 +55,7 @@ def gerar(conn, addr, reg, e_reg):
     text = e_reg.protocolo_d(nonce, cipher, enc_aes, e_reg.rsa_key)
     dados = text.split()
     chave = RSA.import_key(get_key(conn, addr))
-    reg.registra_eleitor(dados[0].decode('utf-8'), dados[1].decode('utf-8'), dados[2].decode('utf-8'), chave)
+    reg.registra_eleitor(dados[0].decode('utf-8'), dados[1].decode('utf-8'), dados[2].decode('utf-8'))
     conn.send("Par de chaves gerado".encode(FORMAT))
 
 def get_nonce(conn, addr):

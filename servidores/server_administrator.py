@@ -31,7 +31,7 @@ def handle_client(conn, addr, adm):
     chave_eleitor = RSA.import_key(get_key(conn, addr))
     s_adm.verify(text, text_s, chave_eleitor)
     try:
-        adm.candidatar(dados[0].decode('utf-8'), dados[1].decode('utf-8'), dados[2].decode('utf-8'))
+        adm.candidatar(dados[0].decode('utf-8'), dados[1].decode('utf-8'), dados[2].decode('utf-8'), dados[3].decode('utf-8'), dados[4].decode('utf-8'))
         conn.send("Candidatura aprovada".encode(FORMAT))
     except:
         conn.send("As chaves não correspondem".encode(FORMAT))

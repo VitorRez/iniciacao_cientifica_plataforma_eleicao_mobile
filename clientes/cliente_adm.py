@@ -24,7 +24,7 @@ def send(msg):
 
 #envia os dados do eleitor juntamente com os dados assinados para a verificação
 #durante a etapa de candidatura
-def send_to_adm(nome, cpf, unidade):
+def send_to_adm(nome, cpf, unidade, cargo, id):
     client.connect(ADDR)
     password = input("password: ")
     chave_rsa = RSA.import_key(client.recv(2048))
@@ -34,7 +34,7 @@ def send_to_adm(nome, cpf, unidade):
         chave_aes = get_random_bytes(16)
         e = Encryptor(chave_rsa, chave_aes)
         s = signature(chave_rsa_priv)
-        info = nome + " " + cpf + " " + unidade
+        info = nome + " " + cpf + " " + unidade + " " + cargo + " " + id
         sign = s.sign(info)
         nonce, cipher, enc_aes = e.protocolo_e(info)
         nonce_s, cipher_s, enc_aes_s = e.protocolo_e(sign)

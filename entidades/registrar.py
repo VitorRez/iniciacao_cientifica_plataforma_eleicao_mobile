@@ -10,15 +10,14 @@ class registrar():
         self.chave = RSA.generate(1024)
     
     def cadastra_eleitor(self, nome, cpf, unidade):
-        cadastra_eleitor("base_de_dados/eleitores.csv", nome, cpf, unidade)
+        cadastra_eleitor(nome, cpf, unidade)
 
-    def registra_eleitor(self, nome, cpf, unidade, chave):
+    def registra_eleitor(self, nome, cpf, unidade):
         #print(nome, cpf, unidade)
-        filename = "base_de_dados/eleitores.csv"
-        x = busca_dados(filename, nome, cpf, unidade)
+        x = busca_dados(nome, cpf, unidade)
         if x:
             #chave = RSA.generate(1024)
-            muda_estado_eleitor(filename, nome, cpf)
+            muda_estado_eleitor(nome, cpf, unidade)
             #guarda_chave_pub(cpf, chave)
             #guarda_chave_priv(cpf, chave)
             #signature = request(0, nome, chave.publickey().exportKey("PEM"), self.chave)

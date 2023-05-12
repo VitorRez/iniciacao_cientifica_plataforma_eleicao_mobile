@@ -10,10 +10,10 @@ class administrator():
         self.chave = RSA.generate(1024)
 
     #metodo para um eleitor se candidatar
-    def candidatar(self, nome, cpf, unidade):
-        x = busca_eleitor("base_de_dados/eleitores.csv", nome, cpf, unidade)
+    def candidatar(self, nome, cpf, unidade, cargo, id):
+        x = busca_eleitor(nome, cpf, unidade)
         if not x:
             return
-        reg_candidato("base_de_dados/eleitores.csv", nome, cpf)
+        reg_candidato(nome, cpf, unidade, cargo, id)
         
         
