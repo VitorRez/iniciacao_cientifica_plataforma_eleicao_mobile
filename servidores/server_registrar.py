@@ -3,7 +3,7 @@ from crypto.encryptDecrypt import *
 import socket
 import threading
 
-HEADER = 1024
+HEADER = 2048
 PORT = 5050
 SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)

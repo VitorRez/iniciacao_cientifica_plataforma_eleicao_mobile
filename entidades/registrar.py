@@ -7,7 +7,7 @@ from base_de_dados.DataBaseManagement import *
 class registrar():
 
     def __init__(self):
-        self.chave = RSA.generate(1024)
+        self.chave = RSA.generate(2048)
     
     def cadastra_eleitor(self, nome, cpf, unidade):
         cadastra_eleitor(nome, cpf, unidade)

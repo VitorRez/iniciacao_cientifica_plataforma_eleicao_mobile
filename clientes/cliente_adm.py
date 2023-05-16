@@ -4,7 +4,7 @@ from crypto.sign import *
 from base_de_dados.DataBaseManagement import *
 from base_de_dados.KeyManagement import *
 
-HEADER = 1024
+HEADER = 2048
 PORT = 5055
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"

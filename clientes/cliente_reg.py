@@ -7,7 +7,7 @@ from certificados.autoridade_certificadora import *
 from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
 
-HEADER = 1024
+HEADER = 2048
 PORT = 5050
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
@@ -39,7 +39,7 @@ def gerar(info, e):
     dados = info.split()
     store_salt(f"clientes/{dados[1]}", salt)
     nonce, cipher, enc_aes = e.protocolo_e(info)
-    key = RSA.generate(1024)
+    key = RSA.generate(2048)
     guarda_chave_priv(f"clientes/{dados[1]}", key, password)
     sign = request(0, dados[0], key.public_key().export_key(), key)
     certificado("registrar", dados[0], key.public_key().export_key(), "BR", dados[1], "clientes", sign)

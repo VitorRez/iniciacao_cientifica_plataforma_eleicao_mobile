@@ -7,7 +7,7 @@ from base_de_dados.DataBaseManagement import *
 class administrator():
 
     def __init__(self):
-        self.chave = RSA.generate(1024)
+        self.chave = RSA.generate(2048)
 
     #metodo para um eleitor se candidatar
     def candidatar(self, nome, cpf, unidade, cargo, id):
