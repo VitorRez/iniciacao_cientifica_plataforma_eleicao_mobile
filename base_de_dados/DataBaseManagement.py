@@ -26,6 +26,15 @@ def busca_arquivo_cargos(unidade):
                 filename = linha['cargos']
                 return filename
         return False
+    
+def busca_num_cargos(unidade):
+    with open("base_de_dados/eleicao.csv", "r") as arquivo:
+        leitor_csv = csv.DictReader(arquivo)
+        for linha in leitor_csv:
+            if linha['nome'] == unidade:
+                num_cargos = linha['num_cargos']
+                return num_cargos
+        return False
 
 #salva os dados do eleitor no arquivo csv
 def cadastra_eleitor(nome, cpf, unidade):

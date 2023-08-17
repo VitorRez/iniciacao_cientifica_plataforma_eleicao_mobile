@@ -1,4 +1,4 @@
-from entidades.registrar import *
+from entidades.administrator import *
 from crypto.sign import *
 from crypto.encryptDecrypt import *
 import socket

@@ -1,4 +1,2 @@
 nome,eleitores,candidatos,num_cargos
-1,base_de_dados/eleitores/eleitores_1.csv,base_de_dados/candidatos/candidatos_1.csv,3,base_de_dados/cargos/cargos_1.csv
-2,base_de_dados/eleitores/eleitores_2.csv,base_de_dados/candidatos/candidatos_2.csv,2,base_de_dados/cargos/cargos_2.csv
-3,base_de_dados/eleitores/eleitores_3.csv,base_de_dados/candidatos/candidatos_3.csv,4,base_de_dados/cargos/cargos_3.csv
+1,base_de_dados/eleitores/eleitores_1.csv,base_de_dados/candidatos/candidatos_1.csv,1,base_de_dados/cargos/cargos_1.csv

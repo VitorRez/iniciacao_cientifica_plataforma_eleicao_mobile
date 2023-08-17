@@ -29,7 +29,7 @@ def create_election():
             cont += 1
             num_cargos = int(input("Quantos cargos? Digite 0 para encerrar: "))
 
-create_election()
+#create_election()
 
         
      

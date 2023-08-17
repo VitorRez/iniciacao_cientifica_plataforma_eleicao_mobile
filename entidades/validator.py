@@ -7,4 +7,6 @@ from base_de_dados.DataBaseManagement import *
 class validator():
 
     def __init__(self):
-        self.chave = RSA.generate(2048)
+        self.chave = RSA.generate(1024)
+
+    
