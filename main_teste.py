@@ -1,4 +1,6 @@
 import threading
+import threading
+import time
 from certificados.autoridade_certificadora import *
 from entidades.eleitores import *
 from entidades.registrar import *
@@ -25,3 +27,5 @@ thread_reg = threading.Thread(target=s_reg.start_reg)
 thread_adm = threading.Thread(target=s_adm.start_adm)
 thread_reg.start()
 thread_adm.start()
+time.sleep(2)
+event = threading.Event()

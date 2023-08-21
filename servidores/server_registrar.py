@@ -2,6 +2,7 @@ from entidades.registrar import *
 from crypto.encryptDecrypt import *
 import socket
 import threading
+import ctypes
 
 HEADER = 1024
 PORT = 5050
@@ -104,8 +105,12 @@ class server_reg():
         server.bind(ADDR)
         server.listen()
         print(f"[LISTENING] Registrar server is listerning on {SERVER}")
-        while True:
-            conn, addr = server.accept()
-            thread = threading.Thread(target=handle_client, args=(conn, addr, self.reg))
-            thread.start()
-            print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+        try:
+            while True:
+                conn, addr = server.accept()
+                thread = threading.Thread(target=handle_client, args=(conn, addr, self.reg))
+                thread.start()
+                print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+        finally:
+            print("[SERVER CLOSED]")
+    

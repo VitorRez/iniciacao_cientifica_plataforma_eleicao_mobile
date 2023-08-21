@@ -25,14 +25,6 @@ def generate_padding(k):
         pos = b + pos
         i += 1
 
-    #teste
-    #for i in range(len(pre)):
-    #    print(pre[i])
-    #for i in range(len(pos)):
-    #    print(pos[i])
-    #print(len(pre))
-    #print(len(pos))
-
     return pre, pos
 
 def remove_padding(ballot):
@@ -61,12 +53,10 @@ def generate_ballot(candidatos):
     cont = 0
     size = 1
     num_bytes = get_num_bytes(candidatos)
-    print(num_bytes)
     k = 256 - num_bytes
     pre, pos = generate_padding(k)
     pre = pre + b'\x00'
     for i in candidatos:
-        print(i.to_bytes(size, "big"))
         pre = pre + i.to_bytes(size, "big") + b'\x00'
         if cont >= 1 and size < 2:
             size += 1
@@ -76,8 +66,8 @@ def generate_ballot(candidatos):
     return candidatos_bytes
 
 #teste
-candidatos = [1, 11, 111, 1111]
-ballot = generate_ballot(candidatos)
-clean_ballot = remove_padding(ballot)
-print(ballot)
-print(clean_ballot)
+#candidatos = [1, 11, 111, 1111]
+#ballot = generate_ballot(candidatos)
+#clean_ballot = remove_padding(ballot)
+#print(ballot)
+#print(clean_ballot)

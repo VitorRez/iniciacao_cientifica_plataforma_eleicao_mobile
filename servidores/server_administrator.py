@@ -85,9 +85,12 @@ class server_adm():
         server.bind(ADDR)
         server.listen()
         print(f"[LISTENING] Administrator server is listening on {SERVER}")
-        while True:
-            conn, addr = server.accept()
-            thread = threading.Thread(target=handle_client, args=(conn, addr, self.adm))
-            thread.start()
-            print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+        try:
+            while True:
+                conn, addr = server.accept()
+                thread = threading.Thread(target=handle_client, args=(conn, addr, self.adm))
+                thread.start()
+                print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+        finally:
+            print("[SERVER CLOSED]")
 
